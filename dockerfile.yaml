@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y python3 openjdk-21-jdk ca-certificates-java ca-certificates curl vim dnsutils net-tools iputils-ping && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    update-ca-certificates -f && \
+    curl -s https://bootstrap.pypa.io/get-pip.py | python3 && \
+    pip install --upgrade pip && \
+    pip install awscli && \
+    aws --version && \
+    java -version && \
+    python3 --version && \
+    pip --version && \
+    curl -LO https://www.apache.org/dyn/closer.cgi?path=/kafka/3.7.0/kafka_2.13-3.7.0.tgz && \
+    mkdir /opt/kafka && tar -zxvf kafka_2.13-3.7.0.tgz -C /opt/kafka --strip-components 1 && \
+    export PATH=$PATH:/opt/kafka/bin && rm -rf kafka_2.13-3.7.0.tgz
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "tail -f /dev/null"]
