@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-RUN apt-get update && apt-get install -y openjdk-21-jdk ca-certificates-java ca-certificates curl vim dnsutils net-tools iputils-ping telnet && \
+RUN apt-get update && apt-get install -y openjdk-21-jdk ca-certificates-java ca-certificates netcat-traditional curl vim dnsutils net-tools iputils-ping telnet && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     update-ca-certificates -f && \
     curl -L https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz -o /tmp/kafka.tgz && \
@@ -7,5 +7,6 @@ RUN apt-get update && apt-get install -y openjdk-21-jdk ca-certificates-java ca-
     curl -L https://github.com/aws/aws-msk-iam-auth/releases/download/v2.2.0/aws-msk-iam-auth-2.2.0-all.jar -o /opt/kafka/libs/aws-msk-iam-auth.jar && \
     export PATH=/opt/kafka/bin:$PATH && rm -rf kafka_2.13-3.7.1.tgz
 ADD iam-sasl.properties /root/iam-sasl.properties
+ADD iam-oauth-sasl.properties /root/iam-oauth-sasl.properties
 ENTRYPOINT ["/bin/bash"]
 CMD ["-c", "tail -f /dev/null"]
